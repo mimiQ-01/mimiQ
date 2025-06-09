@@ -11,6 +11,7 @@
 typedef void Lab; // semantic
 #include "mimiq/mimiq.h"
 #include "Experiments/myLab.h"
+#include <iostream>
 
 Lab myLab(mimiqHandler* handler)
 {

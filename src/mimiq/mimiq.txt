@@ -1,0 +1,40 @@
+/**
+ * @file mimiq.cpp
+ * @brief implementation of mimiq.h functions
+ * 
+ *  
+ * @author Rushikesh Muraharisetty
+ * @date last updated: Mar 10 '25
+ */
+
+#include <algorithm>
+#include <array>
+#include <cmath>
+#include <ctime>
+#include <functional>
+#include <sstream>
+#include <string>
+#include <utility>
+#include <vector>
+
+#include "mimiq.h"
+
+
+
+// a qbit as from our understanding can be represented as a sphere will 3 angles
+// which correspond to the rotations from reference axes x,y,z in this project,
+// a qbit is represented in the form of a|0> + b|1> the reason is for its
+// simplicity and ease to manipulate it mathematically a is called the real
+// part, and b is called the complex part (b is imaginary part where a,b
+// together is called complex number, but bare with the naming sense lol)
+
+// prime basis state: |0> , |1>
+// for other basis sets: {|+>, |->}, {|i>, |-i>}, spontaneous computation is
+// done as they are not often used
+
+// default constructors
+
+
+
+
+
