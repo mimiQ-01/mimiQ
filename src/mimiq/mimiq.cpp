@@ -541,31 +541,31 @@ std::pair<std::string, int> Qcircuit::drawCircuitUtility(int key,
     auto& euler_array =
         (*euler_container)[eulerIndex];  // Explicitly reference the array
     switch (key) {
-        case 1:
+        case GATES::gateNumber::h :
             res = "\\gate{H} & ";
             break;
-        case 2:
+        case GATES::gateNumber::x:
             res = "\\gate{X} & ";
             break;
-        case 3:
+        case GATES::gateNumber::y:
             res = "\\gate{Y} & ";
             break;
-        case 4:
+        case GATES::gateNumber::z:
             res = "\\gate{Z} & ";
             break;
-        case 5:
+        case GATES::gateNumber::s:
             res = "\\gate{S} & ";
             break;
-        case 6:
+        case GATES::gateNumber::sd:
             res = "\\gate{S^\\dag} & ";
             break;
-        case 7:
+        case GATES::gateNumber::t:
             res = "\\gate{T} & ";
             break;
-        case 8:
+        case GATES::gateNumber::td:
             res = "\\gate{T^\\dag} & ";
             break;
-        case 101:
+        case GATES::gateNumber::u3:
             res =
                 "\\gate{U(" + trimZeroes(std::to_string(R3(euler_array[0]))) +
                 "," +
@@ -575,7 +575,7 @@ std::pair<std::string, int> Qcircuit::drawCircuitUtility(int key,
                 ")} & ";
             length += 3;
             break;
-        case 102:
+        case GATES::gateNumber::iu3:
             res =
                 "\\gate{IU3(" +
                 trimZeroes(std::to_string(R3((*euler_container)[eulerIndex][0]))) +
@@ -586,14 +586,14 @@ std::pair<std::string, int> Qcircuit::drawCircuitUtility(int key,
                 ")} & ";
             length += 3;
             break;
-        case 103:
+        case GATES::gateNumber::u1:
             res =
                 "\\gate{U1(" +
                 trimZeroes(std::to_string(R3((*euler_container)[eulerIndex][0]))) +
                 ")} & ";
             length++;
             break;
-        case 104:
+        case GATES::gateNumber::u2:
             res = ("\\gate{U2(" +
                    trimZeroes(
                        std::to_string(R3((*euler_container)[eulerIndex][0]))) +
@@ -604,14 +604,14 @@ std::pair<std::string, int> Qcircuit::drawCircuitUtility(int key,
             length += 2;
             break;
 
-        case 105:
+        case GATES::gateNumber::rx:
             res =
                 "\\gate{Rx(" +
                 trimZeroes(std::to_string(R3((*euler_container)[eulerIndex][0]))) +
                 ")} & ";
             length++;
             break;
-        case 106:
+        case GATES::gateNumber::ry:
             res =
                 "\\gate{Ry(" +
                 trimZeroes(std::to_string(R3((*euler_container)[eulerIndex][0]))) +
@@ -1356,37 +1356,37 @@ void Qcircuit::applyUtility(
     std::vector<double> arr = std::vector<double>(),
     std::vector<std::vector<Coeff>>& matrix = empty_matrix) {
     if (gate == "H" || gate == "h") {
-        G = 1;
+        G =  GATES::gateNumber::h ;
         matrix = GATES::unitaryGate(PI / 2, 0, PI);
     } else if (gate == "x" || gate == "X") {
-        G = 2;
+        G = GATES::gateNumber::x;
         matrix = GATES::unitaryGate(PI, 0, PI);
     } else if (gate == "y" || gate == "Y") {
-        G = 3;
+        G = GATES::gateNumber::y;
         matrix = GATES::unitaryGate(PI, PI / 2, PI / 2);
     } else if (gate == "z" || gate == "Z") {
-        G = 4;
+        G = GATES::gateNumber::z;
         matrix = GATES::unitaryGate(0, 0, PI);
     } else if (gate == "s" || gate == "S") {
-        G = 5;
+        G = GATES::gateNumber::s;
         matrix = GATES::unitaryGate(0, 0, PI / 2);
     } else if (gate == "sd" || gate == "Sd") {
-        G = 6;
+        G = GATES::gateNumber::sd;
         matrix = GATES::unitaryGate(0, 0, -PI / 2);
     } else if (gate == "T" || gate == "t") {
-        G = 7;
+        G = GATES::gateNumber::t;
         matrix = GATES::unitaryGate(0, 0, PI / 4);
     } else if (gate == "Td" || gate == "td") {
-        G = 8;
+        G = GATES::gateNumber::td;
         matrix = GATES::unitaryGate(0, 0, -PI / 4);
     } else if (gate == "rx" || gate == "Rx") {
-        G = 105;
+        G = GATES::gateNumber::rx;
         esize = (*euler_container).size();
         (*euler_container).push_back({arr[0], 0, 0});
 
         matrix = GATES::unitaryGate((*euler_container)[esize][0], -PI / 2, PI / 2);
     } else if (gate == "ry" || gate == "Ry") {
-        G = 106;
+        G = GATES::gateNumber::ry;
         esize = (*euler_container).size();
         (*euler_container).push_back({arr[0], 0, 0});
 
@@ -1394,7 +1394,7 @@ void Qcircuit::applyUtility(
     } else if (gate == "U3" || gate == "u3" || gate == "u" || gate == "U") {
         esize = (*euler_container).size();
         (*euler_container).push_back({arr[0], arr[1], arr[2]});
-        G = 101;
+        G = GATES::gateNumber::u3;
         matrix = GATES::unitaryGate((*euler_container)[esize][0],
                                     (*euler_container)[esize][1],
                                     (*euler_container)[esize][2]);
@@ -1403,19 +1403,19 @@ void Qcircuit::applyUtility(
     {
         esize = (*euler_container).size();
         (*euler_container).push_back({arr[0], arr[1], arr[2]});
-        G = 102;
+        G = GATES::gateNumber::iu3;
         matrix = GATES::inverse2x2(GATES::unitaryGate(
             (*euler_container)[esize][0], (*euler_container)[esize][1],
             (*euler_container)[esize][2]));
     } else if (gate == "U1" || gate == "u1") {
         esize = (*euler_container).size();
         (*euler_container).push_back({arr[0], 0, 0});
-        G = 103;
+        G = GATES::gateNumber::u1;
         matrix = GATES::unitaryGate(0, 0, (*euler_container)[esize][0]);
     } else if (gate == "U2" || gate == "u2") {
         esize = (*euler_container).size();
         (*euler_container).push_back({arr[0], arr[1], 0});
-        G = 104;
+        G = GATES::gateNumber::u2;
         matrix = GATES::unitaryGate(PI / 2, (*euler_container)[esize][0],
                                     (*euler_container)[esize][1]);
     }

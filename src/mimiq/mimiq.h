@@ -181,7 +181,25 @@ namespace GATES
     const std::vector < std::vector < Coeff >> & m2, std::vector < std::vector < Coeff >> & m3);
     void kroneckerBUFF(const std::vector < std::vector < Coeff >> & gate, std::vector < std::vector < Coeff >> & res, int n_qbits, int tbit) ;
     std::vector < std::vector < Coeff >> inverse2x2(const std::vector < std::vector < Coeff >> & matrix);
-}
+
+    enum gateNumber
+    {
+        h = 1, 
+        x = 2,
+        y = 3,
+        z = 4,
+        s = 5,
+        sd = 6,
+        t = 7,
+        td = 8,
+        rx = 9,
+        ry = 10,
+        u3 = 11, 
+        iu3 = 12,
+        u1 = 13,
+        u2 = 14,
+    };
+};
 
 
 #endif
