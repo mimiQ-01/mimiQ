@@ -117,7 +117,7 @@ Lab lab2(MimiqHandler* handler)
 int main()
 {  
     MimiqHandler* myhandler= new MimiqHandler("/home/zenyuzien/Downloads/"); // path to store report, default is current directory
-    lab2(myhandler);
+    myLab(myhandler);
     myhandler->generate_report();
     delete myhandler;
     return 0 ;

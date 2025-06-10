@@ -6,15 +6,17 @@
 #include <iostream>
 
 #define R3(x) (std::round((x) * 1000.0) / 1000.0)
+
 struct wire {
     std::vector<std::pair<std::string, int>> line;
     int pos;
     bool nature;  // TODO
 };
+
 std::string trimZeroes(std::string str) {
-    size_t decimalIndex = str.find('.');
+    int decimalIndex = str.find('.');
     if (decimalIndex != std::string::npos) {
-        size_t lastNonZeroIndex = std::string::npos;
+        int lastNonZeroIndex = std::string::npos;
         for (auto i = str.size() - 1; i > decimalIndex; --i) {
             if (str[i] != '0') {
                 lastNonZeroIndex = i;
@@ -34,7 +36,6 @@ std::string trimZeroes(std::string str) {
         return str;
     }
 }
-
 
 std::pair<std::string, int> Qcircuit::draw_circuit_utility_(int key,
                                                          int eulerIndex) {
@@ -462,7 +463,7 @@ By structuring circuits this way, we maintain readability and logical flow while
     inds.push_back(0);
     int starter = 0;
 
-    for (size_t z = starter; z < qw[0].line.size(); z++) {
+    for (int z = starter; z < qw[0].line.size(); z++) {
         int max_block = -1;
         for (int i = 0; i < n_qbits; i++) {
             if (max_block < qw[i].line[z].second)
@@ -477,8 +478,8 @@ By structuring circuits this way, we maintain readability and logical flow while
 
     //std::cout << "finally \n";
     // 0 5 10 17
-    int min_diff = 0xffffffff;
-    for (size_t i = 0; i < inds.size() - 1; i++) {
+    uint32_t min_diff = 0xffffffff;
+    for (int i = 0; i < inds.size() - 1; i++) {
         min_diff = (min_diff > (inds[i + 1] - inds[i]))
                        ? ((inds[i + 1] - inds[i]))
                        : (min_diff);
@@ -513,14 +514,14 @@ By structuring circuits this way, we maintain readability and logical flow while
     }
     for (int i = 0; i < n_qbits; i++) {
         std::string combinedLine = qw[i].line[0].first;
-        for (size_t j = inds[inds.size() - 1]; j < qw[0].line.size(); j++)
+        for (int j = inds[inds.size() - 1]; j < qw[0].line.size(); j++)
             if (j) combinedLine += qw[i].line[j].first;
 
         handler->latex_writer << combinedLine << std::endl;
     }
     for (int i = 0; i < n_cbits; i++) {
         std::string combinedLine = cw[i].line[0].first;
-        for (size_t j = inds[inds.size() - 1]; j < qw[0].line.size(); j++)
+        for (int j = inds[inds.size() - 1]; j < qw[0].line.size(); j++)
             if (j) combinedLine += cw[i].line[j].first;
 
         handler->latex_writer << combinedLine << std::endl;

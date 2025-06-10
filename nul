@@ -259,17 +259,30 @@ No file report.aux.
 Package pgfplots notification 'compat/show suggested version=true': document ha
 s been generated with the most recent feature set (\pgfplotsset{compat=1.18}).
 
-[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] <xymatrix 6x8 1418>
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] <xymatrix 12x8 3424>
+[2] <xymatrix 11x16 3997> [3] <xymatrix 14x8 4077>
 
 Package pgfplots Warning: Axis range for axis x is approximately empty; enlargi
-ng it (it is [0.0:0.0]) on input line 52.
+ng it (it is [0.0:0.0]) on input line 179.
 
-[2] (/home/zenyuzien/Downloads//report.aux) )</usr/share/texlive/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/typ
-e1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10
-.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on /home/zenyuzien/Downloads//report.pdf (2 pages, 81906 bytes).
+[4] <xymatrix 15x9 5099> [5] <xymatrix 17x20 6850> [6] <xymatrix 17x16 9426>
+[7] [8] <xymatrix 13x10 4871>
+
+Package pgfplots Warning: Axis range for axis x is approximately empty; enlargi
+ng it (it is [0.0:0.0]) on input line 436.
+
+[9] <xymatrix 14x30 12816>
+Overfull \hbox (58.8924pt too wide) detected at line 496
+[]
+[10] [11] (/home/zenyuzien/Downloads//report.aux) )
+(see the transcript file for additional information)</usr/share/texlive/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt1
+0.pfb>
+Output written on /home/zenyuzien/Downloads//report.pdf (11 pages, 119214 bytes
+).
 Transcript written on /home/zenyuzien/Downloads//report.log.
