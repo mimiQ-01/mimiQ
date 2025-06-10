@@ -47,8 +47,8 @@ std::string generateLatexBarChart(
 
     // Add plot coordinates
     latex << "        \\addplot coordinates {";
-    for (const auto& [state, count] : data) {
-        latex << "(" << state << "," << count << ") ";
+    for (const auto& [state_, count] : data) {
+        latex << "(" << state_ << "," << count << ") ";
     }
     latex << "};\n";
 
@@ -61,7 +61,7 @@ std::string generateLatexBarChart(
 
 void result::print_counts() const {
     std::vector<std::pair<std::string, std::string>> gr;
-   /* handler->wr
+   /* handler->latex_writer
         << "\n\n\n\n\n\n\\text{Classical register readings (left to right: "
            "cn,cn-1,..c2,c1,c0) for the simulation:} \n\n\n\n\n\n";*/
     std::cout << "classical register readings for the simulation: "
@@ -74,12 +74,12 @@ void result::print_counts() const {
         }
         auto rev = reverse(binaryString);
         std::cout << rev << ": " << i->second << std::endl;
-       // handler->wr << rev << ": " << i->second << "\n\n\n";
+       // handler->latex_writer << rev << ": " << i->second << "\n\n\n";
         gr.push_back({rev, std::to_string(i->second)});
     }
-    handler->wr << generateLatexBarChart(gr);
+    handler->latex_writer << generateLatexBarChart(gr);
     std::cout << std::endl;
-    handler->wr << "\n\n";
+    handler->latex_writer << "\n\n";
 }
 
 void insertBackslashes(std::string& str) {
@@ -95,15 +95,15 @@ void result::generate_openqasm()
 {
     std::cout<< handler->oqsm<<"\n";
     //insertBackslashes(handler->oqsm);
-    handler->writeInPdf("the OpenQASM 2.0 code for the above qircuit is: \n");
-    handler->wr<<"\\begin{verbatim}\n";
-    handler->wr<< handler->oqsm << "\\end{verbatim}\n";
+    handler->write_in_pdf("the OpenQASM 2.0 code for the above qircuit is: \n");
+    handler->latex_writer<<"\\begin{verbatim}\n";
+    handler->latex_writer<< handler->oqsm << "\\end{verbatim}\n";
 }
 
 std::pair<int, int> result::get_counts_of(int cbit){
     int cmask = n_cbits - 1 - cbit;
     int ones = 0, zeroes = 0;
-    int cnd = 1 << state->n_qbits;
+    int cnd = 1 << state_->n_qbits;
 
     for (int i = 0; i < cnd; i++) {
         if (i & cmask)  // x1x val = 1
@@ -114,8 +114,8 @@ std::pair<int, int> result::get_counts_of(int cbit){
     return {zeroes, ones};
 }
 
-struct result simulate(mimiqHandler* handler,
-                       std::function<Qcircuit::experiment(mimiqHandler*)> func,
+struct result simulate(MimiqHandler* handler,
+                       std::function<Qcircuit::experiment(MimiqHandler*)> func,
                        int shots) {
     if (!func) {
         std::cerr << "NULL Experiment error \n";
@@ -126,7 +126,7 @@ struct result simulate(mimiqHandler* handler,
 
     while (shots--) {
         shot_result = func(handler);
-        if (!handler->wr.is_open()) std::cerr << "end of shot closed";
+        if (!handler->latex_writer.is_open()) std::cerr << "end of shot closed";
         res.m[shot_result.c_reg_value]++;
     }
 
@@ -137,8 +137,8 @@ struct result simulate(mimiqHandler* handler,
     for (uint64_t i = 0; i < res.n_cbits; ++i)
         res.creg[shot_result.n_cbits - 1 - i] =
             (shot_result.c_reg_value >> i) & 1;
-    res.state = shot_result.final_state;  // TODO final state doesnt make sense
-    // res.(*state).print();
+    res.state_ = shot_result.final_state;  // TODO final state_ doesnt make sense
+    // res.(*state_).print();
     res.handler = handler;
     return res;
 }

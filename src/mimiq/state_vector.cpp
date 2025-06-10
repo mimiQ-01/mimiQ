@@ -72,7 +72,7 @@ struct state_vector& state_vector::operator=(const struct state_vector& other) {
 }
 struct state_vector state_vector::operator*(
     const struct state_vector&
-        other)  // returns a tensor product of 2 state vectors
+        other)  // returns a tensor product of 2 state_ vectors
 {
     struct state_vector sv3;  //(*this).n_qbits == n_qbits
     sv3.n_qbits = n_qbits + other.n_qbits;
@@ -83,8 +83,8 @@ struct state_vector state_vector::operator*(
     return sv3;
 }
 void state_vector::print() {
-    handler->wr << "\\text{The state vector for the last shot is as follows: }";
-    handler->wr << "\\[\n\\begin{array}{@{}llll@{}}\n";
+    handler->latex_writer << "\\text{The state_ vector for the last shot is as follows: }";
+    handler->latex_writer << "\\[\n\\begin{array}{@{}llll@{}}\n";
     std::cout << std::endl << "number of qbits = " << n_qbits << std::endl;
     int cnd = 1 << n_qbits;
     for (int i = 0; i < cnd; i++) {
@@ -93,19 +93,19 @@ void state_vector::print() {
             int bit = (i >> j) & 1;
             binaryString += (bit == 0) ? '0' : '1';
         }
-        handler->wr << "\\text{" << binaryString << ":} & "
+        handler->latex_writer << "\\text{" << binaryString << ":} & "
                     << coeffs[i].amp_sq() * 100 << "\\% & " << coeffs[i].real
                     << " |0\\rangle &  ";
-        handler->wr << coeffs[i].complex << " |1\\rangle \\\\" << std::endl;
+        handler->latex_writer << coeffs[i].complex << " |1\\rangle \\\\" << std::endl;
         std::cout << binaryString << " =>" << coeffs[i].amp_sq() * 100 << "% ( "
                   << coeffs[i].real << " |0> + " << coeffs[i].complex
                   << " i |1> )\n";
     }
-    handler->wr << "\\end{array}\n\\]\n";
+    handler->latex_writer << "\\end{array}\n\\]\n";
     std::cout << std::endl;
 }
 
-std::pair<Coeff, Coeff> state_vector::measureAlong(int bit) {
+std::pair<Coeff, Coeff> state_vector::measure_along(int bit) {
     int cnd = 1 << n_qbits;
     Coeff z0, z1;
     auto tmask = 1 << (n_qbits - 1 - bit);
@@ -129,7 +129,7 @@ std::pair<Coeff, Coeff> state_vector::measureAlong(int bit) {
     return {z0, z1};
 }
 void state_vector::printprobs() {
-    handler->wr << "\\begin{align*}\n";
+    handler->latex_writer << "\\begin{align*}\n";
     int cnd = 1 << n_qbits;
     for (int bit = 0; bit < n_qbits; bit++) {
         auto tmask = 1 << (n_qbits - 1 - bit);
@@ -139,11 +139,11 @@ void state_vector::printprobs() {
         std::cout << "for qbit " << bit << ": " << "Prob of |1> : " << prob
                   << ",  ";
         std::cout << "Prob of |0> : " << 1 - prob << std::endl;
-        handler->wr << "\\text{For qbit " << bit
+        handler->latex_writer << "\\text{For qbit " << bit
                     << "} \\quad & \\text{Probability of} |1\\rangle: " << prob
                     << ", \\text{Probability of} |0\\rangle: " << 1 - prob
                     << " \\\\\n";
     }
     std::cout << std::endl;
-    handler->wr << "\\end{align*}\n";
+    handler->latex_writer << "\\end{align*}\n";
 }

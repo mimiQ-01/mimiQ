@@ -1,43 +1,43 @@
 #include "mimiqhandler.hpp"
 #include <iostream>
 #include <ctime>
-mimiqHandler::mimiqHandler(std::string path) {
+MimiqHandler::MimiqHandler(std::string path) {
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
     dir_path = path;
-    wr.open(dir_path + "report.tex");
-wr << "\\documentclass{article}\n";
-wr << "\\usepackage[margin=1in]{geometry}\n";
-wr << "\\usepackage{datetime}\n";
-wr << "\\usepackage{qcircuit}\n";
-wr << "\\usepackage{amsmath}\n";
-wr << "\\usepackage{pgfplots}\n";
-wr << "\\pgfplotsset{compat=1.18}\n";
-wr << "\\usepackage[utf8]{inputenc}\n";
-wr << "\\begin{document}\n";
-wr << "\\begin{center}\n";
-wr << "    {\\LARGE \\textbf{mimiQ++ Report}} \\\\\n";
-wr << "    \\large \\today \\quad \\currenttime\n";
-wr << "\\end{center}\n";
-wr << "\\hrule\n";
-wr << "\\vspace{1cm}\n";
+    latex_writer.open(dir_path + "report.tex");
+latex_writer << "\\documentclass{article}\n";
+latex_writer << "\\usepackage[margin=1in]{geometry}\n";
+latex_writer << "\\usepackage{datetime}\n";
+latex_writer << "\\usepackage{qcircuit}\n";
+latex_writer << "\\usepackage{amsmath}\n";
+latex_writer << "\\usepackage{pgfplots}\n";
+latex_writer << "\\pgfplotsset{compat=1.18}\n";
+latex_writer << "\\usepackage[utf8]{inputenc}\n";
+latex_writer << "\\begin{document}\n";
+latex_writer << "\\begin{center}\n";
+latex_writer << "    {\\LARGE \\textbf{mimiQ++ Report}} \\\\\n";
+latex_writer << "    \\large \\today \\quad \\currenttime\n";
+latex_writer << "\\end{center}\n";
+latex_writer << "\\hrule\n";
+latex_writer << "\\vspace{1cm}\n";
 
-    circuittDrawn = false;
-    qasmgen = true;
-    canqasm= true;
+    circuit_drawn = false;
+    qasm_gen = true;
+    can_qasm= true;
     oqsm += "OPENQASM 2.0;\ninclude \"qelib1.inc\";\n";
 
 }
-void mimiqHandler::clean() { circuittDrawn = false; qasmgen = true; canqasm = true; oqsm = "";}
+void MimiqHandler::clean() { circuit_drawn = false; qasm_gen = true; can_qasm = true; oqsm = "";}
 
-void mimiqHandler::writeInPdf(std::string msg) {
-    if (wr.is_open() && wr.good()) wr << msg << "\n\n";
+void MimiqHandler::write_in_pdf(std::string msg) {
+    if (latex_writer.is_open() && latex_writer.good()) latex_writer << msg << "\n\n";
 }
 
-void mimiqHandler::generateReport() {
-    if (wr.is_open()) {
-        reportGenerated = true;
-        wr << "\\end{document}";
-        wr.close();
+void MimiqHandler::generate_report() {
+    if (latex_writer.is_open()) {
+        report_generated = true;
+        latex_writer << "\\end{document}";
+        latex_writer.close();
     } else
         std::cerr << "Unable to generate report as either already generated "
                      "earlier (or) writer closed\n";

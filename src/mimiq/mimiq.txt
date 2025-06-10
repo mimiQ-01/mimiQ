@@ -28,7 +28,7 @@
 // part, and b is called the complex part (b is imaginary part where a,b
 // together is called complex number, but bare with the naming sense lol)
 
-// prime basis state: |0> , |1>
+// prime basis state_: |0> , |1>
 // for other basis sets: {|+>, |->}, {|i>, |-i>}, spontaneous computation is
 // done as they are not often used
 

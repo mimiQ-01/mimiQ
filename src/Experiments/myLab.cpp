@@ -3,7 +3,7 @@
 #include <array>
 
 
-Experiment quantum_teleportation_prtcl_var1(mimiqHandler* handler) 
+Experiment quantum_teleportation_prtcl_var1(MimiqHandler* handler) 
 {
     Qcircuit qc(handler, 3,3, "quantum teleportation 1"); 
 
@@ -14,14 +14,14 @@ Experiment quantum_teleportation_prtcl_var1(mimiqHandler* handler)
     qc.h(0);  
     qc.measure(0,0);
     qc.measure(1,1);
-    qc.applyControlledGate("x","c1",2);
-    qc.applyControlledGate("z","c0",2);
+    qc.apply_controlled_gate("x","c1",2);
+    qc.apply_controlled_gate("z","c0",2);
     qc.measure(2,2);
     
     return qc.simulation();
 }
 
-Experiment quantum_teleportation_prtcl_var2(mimiqHandler* handler)
+Experiment quantum_teleportation_prtcl_var2(MimiqHandler* handler)
 {
     Qcircuit qc(handler, 3,3, "quantum teleportation ibm"); 
     
@@ -32,27 +32,27 @@ Experiment quantum_teleportation_prtcl_var2(mimiqHandler* handler)
     qc.h(0);  
     qc.measure(0,0);
     qc.measure(1,1);
-    qc.applyControlledGate("x","c1",2);
-    qc.applyControlledGate("z","c0",2);
+    qc.apply_controlled_gate("x","c1",2);
+    qc.apply_controlled_gate("z","c0",2);
     qc.u(2, {-6.28,-2.22,-0.408});
     qc.measure(2,2);
     
     return qc.simulation();   
 }
 
-Experiment quantum_superdense_random(mimiqHandler* handler)
+Experiment quantum_superdense_random(MimiqHandler* handler)
 {
     Qcircuit qc(handler, 3,4, "superdense coding - random");
     qc.h(2);
     qc.measure(2,0);
-    qc.applyControlledGate("x","c0",2);
+    qc.apply_controlled_gate("x","c0",2);
     qc.h(2);
     qc.measure(2,1);
     
     qc.h(0);
     qc.cx(0,1);
-    qc.applyControlledGate("z","c1",0); 
-    qc.applyControlledGate("x","c0",0);
+    qc.apply_controlled_gate("z","c1",0); 
+    qc.apply_controlled_gate("x","c0",0);
     qc.cx(0,1);
     qc.h(0);
     
@@ -61,7 +61,7 @@ Experiment quantum_superdense_random(mimiqHandler* handler)
     return qc.simulation();
 }
 
-Experiment quantum_superdense(mimiqHandler* handler)
+Experiment quantum_superdense(MimiqHandler* handler)
 {
     Qcircuit qc(handler, 2,4, "superdense coding"); 
 
@@ -70,8 +70,8 @@ Experiment quantum_superdense(mimiqHandler* handler)
     qc.x(0);
     qc.h(0);
     qc.cx(0,1);
-    qc.applyControlledGate("z","c1",0); 
-    qc.applyControlledGate("x","c0",0);
+    qc.apply_controlled_gate("z","c1",0); 
+    qc.apply_controlled_gate("x","c0",0);
     qc.cx(0,1);
     qc.h(0);
     qc.measure(0,3);
@@ -80,7 +80,7 @@ Experiment quantum_superdense(mimiqHandler* handler)
     return qc.simulation();
 }
 
-Experiment Grover(mimiqHandler* handler)
+Experiment Grover(MimiqHandler* handler)
 {
     Qcircuit qc(handler,3,3,"grover");
     
@@ -139,7 +139,7 @@ Experiment Grover(mimiqHandler* handler)
     return qc.simulation();
 }
 
-Experiment Grover2(mimiqHandler* handler)
+Experiment Grover2(MimiqHandler* handler)
 {
     Qcircuit qc(handler,3,3,"grover by circuit");
     
@@ -204,33 +204,33 @@ Experiment Grover2(mimiqHandler* handler)
     return qc.simulation();
 }
 
-Experiment BB84_QKD(mimiqHandler* handler)
+Experiment BB84_QKD(MimiqHandler* handler)
 {
     Qcircuit qc(handler,2,6, "BB84-ptcl QKD");
     // alice
 
     qc.h(1);                                                // init randomiser
     qc.measure(1,0);                                         // c0 has a random -> alice bit 
-    qc.applyControlledGate("x","c0",1);                                 // reset randomiser
-    qc.applyControlledGate("x","c0",0);                                 // alice bit applied
+    qc.apply_controlled_gate("x","c0",1);                                 // reset randomiser
+    qc.apply_controlled_gate("x","c0",0);                                 // alice bit applied
     qc.h(1);                                                // init randomiser
     qc.measure(1,1);                                         // c1 has a random -> alice basis
-    qc.applyControlledGate("x","c1",1);                                 // reset randomiser
-    qc.applyControlledGate("h","c1",0);                                 // alice basis applied
+    qc.apply_controlled_gate("x","c1",1);                                 // reset randomiser
+    qc.apply_controlled_gate("h","c1",0);                                 // alice basis applied
     // eve 
     qc.h(1);                                                // init randomiser
     qc.measure(1,4);                                         // c4 has a random value -> eve presence
-    qc.applyControlledGate("x","c4",1);                                 // reset randomiser
+    qc.apply_controlled_gate("x","c4",1);                                 // reset randomiser
     if( qc.accessCreg(4) )
     {
         qc.h(1);                                            // init randomiser
         qc.measure(1,5);                                     // c5 has random value -> eve bit
-        qc.applyControlledGate("x","c5",1);                             // reset randomiser
-        qc.applyControlledGate("x","c5",0);                             // eve bit applied
+        qc.apply_controlled_gate("x","c5",1);                             // reset randomiser
+        qc.apply_controlled_gate("x","c5",0);                             // eve bit applied
         qc.h(1);                                            // init randomiser
         qc.measure(1,5);                                     // c5 has random value -> eve basis
-        qc.applyControlledGate("x","c5",1);                             // reset randomiser
-        qc.applyControlledGate("h","c5",0);                             // eve basis applied
+        qc.apply_controlled_gate("x","c5",1);                             // reset randomiser
+        qc.apply_controlled_gate("h","c5",0);                             // eve basis applied
     }
     // bob 
     qc.h(1);                                                // init randomiser
@@ -239,7 +239,7 @@ Experiment BB84_QKD(mimiqHandler* handler)
     return qc.simulation();
 } // qc.ifcreg(0).hx
 
-Experiment Quantum_full_adder(mimiqHandler* handler)
+Experiment Quantum_full_adder(MimiqHandler* handler)
 {
     Qcircuit qc(handler, 4,4, "full adder");
     /*
@@ -260,18 +260,18 @@ Experiment Quantum_full_adder(mimiqHandler* handler)
     /*
     qc.h(2);
     qc.cx(1,2);
-    qc.applyGate("td",2);
+    qc.apply_gate_("td",2);
     qc.cx(0,2);
-    qc.applyGate("t",2);
+    qc.apply_gate_("t",2);
     qc.cx(1,2);
-    qc.applyGate("td",2);
+    qc.apply_gate_("td",2);
     qc.cx(0,2);
-    qc.applyGate("t",1);
-    qc.applyGate("t",2);
+    qc.apply_gate_("t",1);
+    qc.apply_gate_("t",2);
     qc.cx(0,1);
     qc.h(2);
-    qc.applyGate("t",0);
-    qc.applyGate("td",1);
+    qc.apply_gate_("t",0);
+    qc.apply_gate_("td",1);
     qc.cx(0,1);
     */
 
@@ -281,19 +281,19 @@ Experiment Quantum_full_adder(mimiqHandler* handler)
     qc.toffoli(1,2,3);
     /*
     qc.h(3);
-    qc.applyControlledGate("x","q2",3);
-    qc.applyGate("td",3);
+    qc.apply_controlled_gate("x","q2",3);
+    qc.apply_gate_("td",3);
     qc.cx(1,3);
-    qc.applyGate("t",3);
-    qc.applyControlledGate("x","q2",3);
-    qc.applyGate("td",3);
+    qc.apply_gate_("t",3);
+    qc.apply_controlled_gate("x","q2",3);
+    qc.apply_gate_("td",3);
     qc.cx(1,3);
-    qc.applyGate("t",2);
-    qc.applyGate("t",3);
+    qc.apply_gate_("t",2);
+    qc.apply_gate_("t",3);
     qc.cx(1,2);
     qc.h(3);
-    qc.applyGate("t",1);
-    qc.applyGate("td",2);
+    qc.apply_gate_("t",1);
+    qc.apply_gate_("td",2);
     qc.cx(1,2); */
 
     qc.cx(1,2);
@@ -307,33 +307,19 @@ Experiment Quantum_full_adder(mimiqHandler* handler)
     return qc.simulation();
 }
 
-Experiment trial(mimiqHandler* handler)
+Experiment trial(MimiqHandler* handler)
 {
     Qcircuit qc(handler,3,3,"trial");
 
     qc.h(0);
-    qc.t(1);
-    qc.tdg(2);
-    qc.s(0);
-    qc.sdg(1);
-    qc.x(2);
-    qc.z(2);
-    qc.y(0);
-
-    qc.u(1,{1,2,3});
-    qc.u2(0,{1,2});
-    qc.u1(2,{1});
-    qc.ry(1,{1});
-
-    qc.ccx(0,2,1);
-    qc.ch(2,0);
-    qc.cx(2,0);
-
+    qc.x(1);
+    qc.toffoli(0,2,1);
+    qc.measure(1,2);
 
     return qc.simulation();
 }
 
-Experiment quantum_classification(mimiqHandler* handler)
+Experiment quantum_classification(MimiqHandler* handler)
 {
     Qcircuit qc(handler,4,4,"quantum classification");
     qc.h(0);

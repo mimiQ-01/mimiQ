@@ -13,7 +13,7 @@ typedef void Lab; // semantic
 #include "Experiments/myLab.h"
 #include <iostream>
 
-Lab myLab(mimiqHandler* handler)
+Lab myLab(MimiqHandler* handler)
 {
     result res; // a result is needed to hold a simulationn result
     /*
@@ -79,7 +79,7 @@ Lab myLab(mimiqHandler* handler)
     }
     std::cout<< "common bases: "<< common_basis << " eveattacks: "<< eve_attacks << " detected eve attcks: " << leaked_bits << std::endl;
     std::cout<<"\nFINAL KEY: "<< key <<" length: "<< key.length()<< std::endl;
-    handler->writeInPdf("Resultant key: " + key );
+    handler->write_in_pdf("Resultant key: " + key );
     handler->clean();
     
     /*
@@ -105,7 +105,7 @@ Lab myLab(mimiqHandler* handler)
     handler->clean();
     
 }
-Lab lab2(mimiqHandler* handler)
+Lab lab2(MimiqHandler* handler)
 {
     result res;
     res = simulate(handler,trial, 10 );
@@ -116,16 +116,16 @@ Lab lab2(mimiqHandler* handler)
 }
 int main()
 {  
-    mimiqHandler* myhandler= new mimiqHandler("/home/zenyuzien/Downloads/"); // path to store report, default is current directory
-    myLab(myhandler);
-    myhandler->generateReport();
+    MimiqHandler* myhandler= new MimiqHandler("/home/zenyuzien/Downloads/"); // path to store report, default is current directory
+    lab2(myhandler);
+    myhandler->generate_report();
     delete myhandler;
     return 0 ;
 }
 
 // tasks for future:
 /*
-1. fix state.print()
+1. fix state_.print()
 5. parallelism
 6. cqasm code gen
 7. openqasm code gen

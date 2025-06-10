@@ -6,7 +6,7 @@
 // all basisc gates like unitary gate, hadamard gate, pauli's x,y,z are all
 // derieved from this unitary gate which takes euler angles as input the
 // mathematical formula for this matrix is based on qiskit's implementation
-std::vector<std::vector<Coeff>> GATES::unitaryGate(double theta, double psi,
+std::vector<std::vector<Coeff>> gates::unitaryGate(double theta, double psi,
                                                    double lam) {
     return {
         {{cos(theta / 2), 0},
@@ -18,7 +18,7 @@ std::vector<std::vector<Coeff>> GATES::unitaryGate(double theta, double psi,
 // while applying a nomral independant gate can be generalized, controlled gates
 // are not. Is that even possible to do os ? controlled pauli X gate - when
 // control qbit is 1 on {|0>, |1>} basis, then target qbit is flipped.
-void GATES::controlled_pauli_X(struct state_vector& sv, int cbit, int tbit) {
+void gates::controlled_pauli_X(struct state_vector& sv, int cbit, int tbit) {
     // the cnd is just the number of states possible from n_qbits, which is
     // 2^n_qbits the mask is created from the specified positions of control bit
     // and target bit logical operation with the mask will result in 1 or 0
@@ -37,7 +37,7 @@ void GATES::controlled_pauli_X(struct state_vector& sv, int cbit, int tbit) {
              false)) {      // when unvisited and mask condition satisfies --
                             // meaning the position is right
             if (i & tmask)  // if tbit 1 -> other = xxxx & 11011 => 0 at tbit
-                other = i & ~(tmask);  // retrieving the basis state of the
+                other = i & ~(tmask);  // retrieving the basis state_ of the
                                        // complement of the current 1xxt
             else
                 other = i | tmask;  // else, other = xxxx | 00100 => 1 at tbit
@@ -53,7 +53,7 @@ void GATES::controlled_pauli_X(struct state_vector& sv, int cbit, int tbit) {
         }
     }
 }
-void GATES::toffoli(struct state_vector& sv, int cbit1, int cbit2, int tbit) {
+void gates::toffoli(struct state_vector& sv, int cbit1, int cbit2, int tbit) {
     // the cnd is just the number of states possible from n_qbits, which is
     // 2^n_qbits the mask is created from the specified positions of control bit
     // and target bit logical operation with the mask will result in 1 or 0
@@ -73,7 +73,7 @@ void GATES::toffoli(struct state_vector& sv, int cbit1, int cbit2, int tbit) {
              false)) {      // when unvisited and mask condition satisfies --
                             // meaning the position is right
             if (i & tmask)  // if tbit 1 -> other = xxxx & 11011 => 0 at tbit
-                other = i & ~(tmask);  // retrieving the basis state of the
+                other = i & ~(tmask);  // retrieving the basis state_ of the
                                        // complement of the current 1xxt
             else
                 other = i | tmask;  // else, other = xxxx | 00100 => 1 at tbit
@@ -90,13 +90,13 @@ void GATES::toffoli(struct state_vector& sv, int cbit1, int cbit2, int tbit) {
     }
 }
 
-// controlled hadamard-  qbit in control and target also qbit, along with state
+// controlled hadamard-  qbit in control and target also qbit, along with state_
 // vector of course
-void GATES::controlled_hadamard(struct state_vector& sv, int cbit, int tbit) {
+void gates::controlled_hadamard(struct state_vector& sv, int cbit, int tbit) {
     // masking as explaine in controlled pauli x
     int cnd = 1 << sv.n_qbits, cmask = 1 << (sv.n_qbits - 1 - cbit),
         tmask = 1 << (sv.n_qbits - 1 - tbit), other;
-    // I am not directly updating the passed state vector because I need to use
+    // I am not directly updating the passed state_ vector because I need to use
     // all the states passed before updating any, so I just create a new vector
     // and assign it in the end
     struct state_vector tmp(sv.n_qbits);
@@ -133,7 +133,7 @@ void GATES::controlled_hadamard(struct state_vector& sv, int cbit, int tbit) {
 }
 
 // simple 2x2 matrix multiplication
-void GATES::matrixmultiply2x2(const std::vector<std::vector<Coeff>>& g1,
+void gates::matrix_multiply_2x2(const std::vector<std::vector<Coeff>>& g1,
                               const std::vector<std::vector<Coeff>>& g2,
                               std::vector<std::vector<Coeff>>& g3) {
     g3[0][0] = (g1[0][0] * g2[0][0]) + (g1[0][1] * g2[1][0]);
@@ -144,7 +144,7 @@ void GATES::matrixmultiply2x2(const std::vector<std::vector<Coeff>>& g1,
 
 // when control bit is 1, then target bit coeff should be multiplied with (-1 +
 // 0i)
-void GATES::controlled_pauli_Z(struct state_vector& sv, int cbit, int tbit) {
+void gates::controlled_pauli_Z(struct state_vector& sv, int cbit, int tbit) {
     int cnd = 1 << sv.n_qbits, cmask = 1 << (sv.n_qbits - 1 - cbit),
         tmask = 1 << (sv.n_qbits - 1 - tbit);
     struct Coeff tmp(-1, 0);
@@ -154,7 +154,7 @@ void GATES::controlled_pauli_Z(struct state_vector& sv, int cbit, int tbit) {
 }
 
 // to print matrix
-void GATES::printMatrix(const std::vector<std::vector<Coeff>>& matrix) {
+void gates::print_matrix(const std::vector<std::vector<Coeff>>& matrix) {
     if (matrix.size() == 0) {
         std::cout << "empty " << std::endl;
         return;
@@ -167,9 +167,9 @@ void GATES::printMatrix(const std::vector<std::vector<Coeff>>& matrix) {
     }
     std::cout << std::endl;
 }
-// kroneckerSUB is the utility of KnroneckerBUFF, it will create a cross product
+// kronecker_sub is the utility of KnroneckerBUFF, it will create a cross product
 // (or kronecker product ) of 2 gates and assign it to m3
-void GATES::kroneckerSUB(const std::vector<std::vector<Coeff>>& m1,
+void gates::kronecker_sub(const std::vector<std::vector<Coeff>>& m1,
                          const std::vector<std::vector<Coeff>>& m2,
                          std::vector<std::vector<Coeff>>& m3) {
     // Handle edge case
@@ -205,14 +205,14 @@ void GATES::kroneckerSUB(const std::vector<std::vector<Coeff>>& m1,
     }
 }
 
-// when a gate has to be applied to a qbit.. but we have a state vector of
+// when a gate has to be applied to a qbit.. but we have a state_ vector of
 // multiple states of multiple qbits, we need to build a matrix which when
-// multiplied with the state vector, the areas of state_vector which correspond
+// multiplied with the state_ vector, the areas of state_vector which correspond
 // to the atrget qbit only has to be changed. the kroneckerbuff will create the
 // matrix. for a statevector which has 5 qbits like xxxxx, if we want to apply a
 // unitary gate U to 2nd qbit, then our matrix would like I x U x I x I x I
 // which is multiplying identity gates using cross product in appropriate order
-void GATES::kroneckerBUFF(const std::vector<std::vector<Coeff>>& gate,
+void gates::kronecker_buff(const std::vector<std::vector<Coeff>>& gate,
                           std::vector<std::vector<Coeff>>& res, int n_qbits,
                           int tbit) {
     if (n_qbits == 1) {
@@ -227,9 +227,9 @@ void GATES::kroneckerBUFF(const std::vector<std::vector<Coeff>>& gate,
         // loop for n_qbit times, cross product with Identity every iteration
         // except for the position of target qbit
         if (i == tbit)
-            kroneckerSUB(tmp, gate, res);
+            kronecker_sub(tmp, gate, res);
         else
-            kroneckerSUB(tmp, GATES::unitaryGate(0, 0, 0), res);
+            kronecker_sub(tmp, gates::unitaryGate(0, 0, 0), res);
         if (++i < n_qbits)
             tmp = res;
         else
@@ -240,7 +240,7 @@ void GATES::kroneckerBUFF(const std::vector<std::vector<Coeff>>& gate,
 
 // given a 2x2 mateix of complex numbers (or type Coeff), this function will
 // return the inverse of it
-std::vector<std::vector<Coeff>> GATES::inverse2x2(
+std::vector<std::vector<Coeff>> gates::inverse2x2(
     const std::vector<std::vector<Coeff>>& matrix) {
     std::vector<std::vector<Coeff>> res;
     res.resize(2, std::vector<Coeff>(2));

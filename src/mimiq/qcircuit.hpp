@@ -5,40 +5,48 @@
 #include <vector>
 #include <stdint.h>
 
+enum Operation 
+{
+    singleGateOPeration = 1 ,
+    controlledGateOperation = 2,
+    twoControlledGateOperation = 3, 
+    measureOperation = 4,
+};
+
 struct Qcircuit
 {
 private:
-    std::vector<std::vector<int> > *ORDER; // for drawing circuits
-    std::vector<std::array<double, 3> > *euler_container; // for drawing circuits
+    std::vector<std::vector<int> > *order_; // for drawing circuits
+    std::vector<std::array<double, 3> > *euler_container_; // for drawing circuits
     int n_qbits, n_cbits;
-    bool pdfDone, describe = false; // TODO deal with describe
+    bool pdf_done_, describe_ = false; // TODO deal with describe_
     uint64_t c_reg;
-    struct state_vector* state;
+    struct state_vector* state_;
 
-    void printVector() const;
-    void drawCircuit(int num);
-    std::pair<std::string, int> drawCircuitUtility(int key, int eulerIndex );
-    void applyUtility(const std::string &gate, int& G, int& esize,std::vector<double> arr , std::vector<std::vector<Coeff> >& matrix);
-    void applyGate (const std::string &gate, int t_qbit, std::vector<double> arr= std::vector<double>(), bool ORDERinc = true); // overloading applyGate
+    void print_vector_() const;
+    void draw_circuit_(int num=0);
+    std::pair<std::string, int> draw_circuit_utility_(int key, int eulerIndex );
+    void apply_utility_(const std::string &gate, int& G, int& esize,std::vector<double> arr , std::vector<std::vector<Coeff> >& matrix);
+    void apply_gate_ (const std::string &gate, int t_qbit, std::vector<double> arr= std::vector<double>(), bool ORDERinc = true); // overloading apply_gate_
 
 public:
 
     std::string name; 
-    mimiqHandler* handler;    
+    MimiqHandler* handler;    
     struct experiment
     {
         uint64_t c_reg_value,n_cbits ;
         struct state_vector* final_state;
     };
 
-    void initialize(mimiqHandler* h, int nQ, int nC, std::string name );
-    Qcircuit ( mimiqHandler* h, int nQ, int nC, std::string );
-    Qcircuit ( mimiqHandler* h, int nQ, std::string );
+    void initialize(MimiqHandler* h, int nQ, int nC, std::string name );
+    Qcircuit ( MimiqHandler* h, int nQ, int nC, std::string );
+    Qcircuit ( MimiqHandler* h, int nQ, std::string );
     ~Qcircuit()
     {
        // delete handler; TODO analyse
     }
-    void applyControlledGate (const std::string &gate, const std::string c_qbit_str,int t_qbit, std::vector<double> arr = std::vector<double>() );
+    void apply_controlled_gate (const std::string &gate, const std::string c_qbit_str,int t_qbit, std::vector<double> arr = std::vector<double>() );
     void u( int t_qbit, std::vector<double> arr= std::vector<double>(), bool ORDERinc = true);
     void x( int t_qbit, std::vector<double> arr= std::vector<double>(), bool ORDERinc = true);
     void y( int t_qbit, std::vector<double> arr= std::vector<double>(), bool ORDERinc = true);

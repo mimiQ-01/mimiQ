@@ -12,11 +12,12 @@ struct result
     uint64_t n_cbits;
     std::map < int, int > m; // TODO rename, restructure 
     std::vector<bool> creg;
-    struct state_vector* state;
-    mimiqHandler* handler; 
+    struct state_vector* state_;
+    MimiqHandler* handler; 
+
     void generate_openqasm();
     void print_counts() const;
     std::pair<int,int> get_counts_of(int cbit) ;
 };
 
-struct result simulate(mimiqHandler* handler, std::function<Qcircuit::experiment(mimiqHandler* )> func = nullptr , int shots = 1 );
+struct result simulate(MimiqHandler* handler, std::function<Qcircuit::experiment(MimiqHandler* )> func = nullptr , int shots = 1 );

@@ -1,15 +1,14 @@
 CXX = g++
 CXXFLAGS = -Wall -std=c++17 -g  # Added -g for debugging symbols
 
-SOURCES =  src/mimiq/gates.cpp \
-           src/mimiq/mimiqhandler.cpp \
-           src/mimiq/state_vector.cpp \
-           src/mimiq/result.cpp \
-           src/mimiq/qcircuit.cpp \
-           src/Experiments/myLab.cpp \
-           src/main.cpp
+SRC_DIRS = src/mimiq src/mimiq/qcircuit src/Experiments
+SRC_MAIN = src/main.cpp
 
-OBJECTS = $(SOURCES:src/%.cpp=build/%.o)
+SOURCES = $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.cpp)) $(SRC_MAIN)
+
+OBJECTS = $(patsubst src/%.cpp,build/%.o,$(SOURCES))
+
+
 TARGET = build/app
 
 all: $(TARGET)
